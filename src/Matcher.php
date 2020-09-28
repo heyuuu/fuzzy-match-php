@@ -1,9 +1,9 @@
 <?php
 
-namespace Secry\FuzzyMatcher;
+namespace Secry\FuzzyMatch;
 
-use Secry\FuzzyMatch\Contracts\Scorer;
-use Secry\FuzzyMatch\Contracts\Target;
+use Secry\FuzzyMatch\Contract\Scorer;
+use Secry\FuzzyMatch\Contract\Target;
 use Webmozart\Assert\Assert;
 
 class Matcher

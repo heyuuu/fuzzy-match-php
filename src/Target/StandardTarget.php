@@ -1,8 +1,8 @@
 <?php
 
-namespace Secry\FuzzyMatcher\Targets;
+namespace Secry\FuzzyMatch\Target;
 
-use Secry\FuzzyMatch\Contracts\Target;
+use Secry\FuzzyMatch\Contract\Target;
 
 class StandardTarget implements Target
 {

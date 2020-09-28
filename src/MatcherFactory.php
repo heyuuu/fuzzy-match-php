@@ -1,8 +1,8 @@
 <?php
 
-namespace Secry\FuzzyMatcher;
+namespace Secry\FuzzyMatch;
 
-use Secry\FuzzyMatcher\Targets\StandardTarget;
+use Secry\FuzzyMatch\Target\StandardTarget;
 use Webmozart\Assert\Assert;
 
 class MatcherFactory

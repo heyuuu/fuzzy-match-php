@@ -1,6 +1,6 @@
 <?php
 
-namespace Secry\FuzzyMatch\Contracts;
+namespace Secry\FuzzyMatch\Contract;
 
 interface Scorer
 {

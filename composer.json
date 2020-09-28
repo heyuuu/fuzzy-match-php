@@ -22,7 +22,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Secry\\FuzzyMatch\\Tests\\": "tests"
+            "Secry\\FuzzyMatch\\Test\\": "tests"
         }
     },
     "config": {
