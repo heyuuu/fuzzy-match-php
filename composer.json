@@ -7,7 +7,10 @@
             "email": "code@qheyu.com"
         }
     ],
-    "require": {},
+    "require": {
+        "php": ">=7.0",
+        "webmozart/assert": "^1.9"
+    },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16",
         "phpunit/phpunit": "^8.5"
@@ -24,5 +27,9 @@
     },
     "config": {
         "sort-packages": true
+    },
+    "scripts": {
+        "test": "phpunit",
+        "fix": "php-cs-fixer fix"
     }
 }
