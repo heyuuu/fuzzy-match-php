@@ -13,5 +13,13 @@ abstract class BaseScorer implements Scorer
         return $this->scoreString($target->getMatchString(), $query);
     }
 
+    /**
+     * 对当个字符串的匹配
+     *
+     * @param string $target
+     * @param string $query
+     *
+     * @return float
+     */
     abstract protected function scoreString(string $target, string $query): float;
 }
