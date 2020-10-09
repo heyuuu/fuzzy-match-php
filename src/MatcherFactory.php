@@ -35,6 +35,6 @@ class MatcherFactory
 
     public function createTarget($key, $result, $matchString)
     {
-        return new StandardTarget($key, $result, $matchString);
+        return new StandardTarget($key, $result);
     }
 }

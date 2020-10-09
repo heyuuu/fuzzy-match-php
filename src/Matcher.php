@@ -4,6 +4,9 @@ namespace Secry\FuzzyMatch;
 
 use Secry\FuzzyMatch\Contract\Scorer;
 use Secry\FuzzyMatch\Contract\Target;
+use Secry\FuzzyMatch\Scorer\BonusScorer;
+use Secry\FuzzyMatch\Scorer\WordSegmentationScorer;
+use Tightenco\Collect\Support\Collection;
 use Webmozart\Assert\Assert;
 
 class Matcher
@@ -28,7 +31,7 @@ class Matcher
 
     private function initDefaultScorer(): Scorer
     {
-        // todo 新建默认计分器
+        return new WordSegmentationScorer(new BonusScorer());
     }
 
     /**
@@ -54,6 +57,32 @@ class Matcher
      */
     public function match(string $query): array
     {
-        // todo 匹配的核心逻辑
+        if (empty($query)) {
+            return $this->targets;
+        } else {
+            return $this->factualMatch($query, $this->targets);
+        }
+    }
+
+    /**
+     * 实际匹配目标的操作
+     *
+     * @param string   $query
+     * @param Target[] $targets
+     *
+     * @return Target[]
+     */
+    protected function factualMatch(string $query, array $targets)
+    {
+        return Collection::make($targets)
+            ->map(function (Target $target) use ($query) {
+                $score = $this->scorer->score($target, $query);
+
+                return $score > 0 ? ['score' => $score, 'target' => $target] : null;
+            })
+            ->filter()
+            ->sortByDesc('score')
+            ->pluck('target')
+            ->all();
     }
 }

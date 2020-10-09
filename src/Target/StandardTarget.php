@@ -3,50 +3,48 @@
 namespace Secry\FuzzyMatch\Target;
 
 use Secry\FuzzyMatch\Contract\Target;
+use Secry\FuzzyMatch\MatchString;
+use Webmozart\Assert\Assert;
 
 class StandardTarget implements Target
 {
-    /**
-     * @var string
-     */
-    private $key;
-
-    /**
-     * @var string
-     */
-    private $matchString;
-
     /**
      * @var mixed
      */
     private $result;
 
     /**
+     * @var array|MatchString[]
+     */
+    private $matchStrings;
+
+    /**
      * StandardTarget constructor.
      *
-     * @param string $key
-     * @param mixed  $result
-     * @param string $matchString
+     * @param mixed         $result
+     * @param MatchString[] $matchStrings
      */
-    public function __construct(string $key, $result, string $matchString)
+    public function __construct($result, array $matchStrings)
     {
-        $this->key         = $key;
-        $this->matchString = $matchString;
-        $this->result      = $result;
+        Assert::allIsInstanceOf($matchStrings, MatchString::class);
+
+        $this->result       = $result;
+        $this->matchStrings = $matchStrings;
     }
 
-    public function getKey()
-    {
-        return $this->key;
-    }
-
+    /**
+     * @return mixed
+     */
     public function getResult()
     {
         return $this->result;
     }
 
-    public function getMatchString()
+    /**
+     * @return MatchString[]
+     */
+    public function getMatchStrings(): array
     {
-        return $this->matchString;
+        return $this->matchStrings;
     }
 }

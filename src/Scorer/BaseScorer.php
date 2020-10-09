@@ -4,13 +4,18 @@ namespace Secry\FuzzyMatch\Scorer;
 
 use Secry\FuzzyMatch\Contract\Scorer;
 use Secry\FuzzyMatch\Contract\Target;
+use Secry\FuzzyMatch\MatchString;
+use Tightenco\Collect\Support\Collection;
 
 abstract class BaseScorer implements Scorer
 {
     public function score(Target $target, string $query): float
     {
-        // todo 此处保留以后做多匹配字符串的入口
-        return $this->scoreString($target->getMatchString(), $query);
+        return Collection::make($target->getMatchStrings())
+            ->map(function (MatchString $matchString) use ($query) {
+                return $matchString->getWeight() * $this->scoreString($matchString->getString(), $query);
+            })
+            ->sum();
     }
 
     /**

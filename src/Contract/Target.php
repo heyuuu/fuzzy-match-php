@@ -2,11 +2,14 @@
 
 namespace Secry\FuzzyMatch\Contract;
 
+use Secry\FuzzyMatch\MatchString;
+
 interface Target
 {
-    public function getKey();
-
     public function getResult();
 
-    public function getMatchString();
+    /**
+     * @return MatchString[]
+     */
+    public function getMatchStrings(): array;
 }
