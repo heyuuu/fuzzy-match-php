@@ -6,6 +6,7 @@ use Secry\FuzzyMatch\Contract\Scorer;
 use Secry\FuzzyMatch\Contract\Target;
 use Secry\FuzzyMatch\Scorer\BonusScorer;
 use Secry\FuzzyMatch\Scorer\WordSegmentationScorer;
+use Secry\FuzzyMatch\Target\StringTarget;
 use Tightenco\Collect\Support\Collection;
 use Webmozart\Assert\Assert;
 
@@ -21,6 +22,35 @@ class Matcher
      */
     private $scorer;
 
+    /**
+     * 快捷创建一个匹配器
+     *
+     * @param Target[] $targets
+     *
+     * @return Matcher
+     */
+    public static function create(array $targets)
+    {
+        return new static($targets);
+    }
+
+    /**
+     * 快捷创建一个匹配字符串的匹配器
+     *
+     * @param array $strings
+     *
+     * @return Matcher
+     */
+    public static function createByStrings(array $strings)
+    {
+        Assert::allStringNotEmpty($strings);
+        $targets = array_map(function (string $string) {
+            return new StringTarget($string);
+        }, $strings);
+
+        return new Matcher($targets);
+    }
+
     public function __construct(array $targets, Scorer $scorer = null)
     {
         Assert::allIsInstanceOf($targets, Target::class);
@@ -29,7 +59,12 @@ class Matcher
         $this->scorer  = $scorer ?: $this->initDefaultScorer();
     }
 
-    private function initDefaultScorer(): Scorer
+    /**
+     * 默认计分器
+     *
+     * @return Scorer
+     */
+    protected function initDefaultScorer(): Scorer
     {
         return new WordSegmentationScorer(new BonusScorer());
     }
@@ -60,6 +95,7 @@ class Matcher
     public function match(string $query): array
     {
         $targets = $this->matchTargets($query);
+
         return array_map(function (Target $target) {
             return $target->getResult();
         }, $targets);
