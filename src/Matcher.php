@@ -51,11 +51,28 @@ class Matcher
     }
 
     /**
+     * 匹配目标Target并返回result
+     *
+     * @param string $query
+     *
+     * @return mixed[]
+     */
+    public function match(string $query): array
+    {
+        $targets = $this->matchTargets($query);
+        return array_map(function (Target $target) {
+            return $target->getResult();
+        }, $targets);
+    }
+
+    /**
+     * 匹配目标Target
+     *
      * @param string $query
      *
      * @return Target[]
      */
-    public function match(string $query): array
+    public function matchTargets(string $query): array
     {
         if (empty($query)) {
             return $this->targets;

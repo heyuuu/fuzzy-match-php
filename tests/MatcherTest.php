@@ -18,7 +18,7 @@ class MatcherTest extends BaseTestCase
         ];
         $matcher = new Matcher($targets);
 
-        $result = $matcher->match('ab');
+        $result = $matcher->matchTargets('ab');
         $this->assertIsArray($result);
         foreach ($result as $itemResult) {
             $this->assertInstanceOf(Target::class, $itemResult);
