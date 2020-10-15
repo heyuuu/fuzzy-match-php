@@ -88,22 +88,37 @@ class BonusScorer extends BaseScorer
             return [[], 0];
         }
 
-        do {
+        $bestScore   = 0;
+        $bestMatches = [];
+        while ($targetIndex < count($this->targetChars) && $queryIndex < count($this->queryChars)) {
             $targetChar = strtolower($this->targetChars[$targetIndex]);
             $queryChar  = strtolower($this->queryChars[$queryIndex]);
             if ($targetChar === $queryChar) {
-                // 未匹配当前字符的最好结果
+                // 获取当前未匹配时的最优结果
                 [$aMatches, $aScore] = $this->matchRecursive($targetIndex + 1, $queryIndex, $matches, $recursiveCount + 1);
+                if ($aScore > $bestScore) {
+                    $bestScore   = $aScore;
+                    $bestMatches = $aMatches;
+                }
 
-                // 匹配当前字符的最好结果
-                [$bMatches, $bScore] = $this->matchRecursive($targetIndex + 1, $queryIndex + 1, array_merge($matches, [$targetIndex]), $recursiveCount + 1);
-
-                return $aScore > $bScore ? [$aMatches, $aScore] : [$bMatches, $bScore];
+                // 当前匹配循环的步进
+                $matches[] = $targetIndex;
+                ++$queryIndex;
             }
-            ++$targetIndex;
-        } while ($targetIndex < count($this->targetChars));
 
-        return [[], 0];
+            ++$targetIndex;
+        }
+
+        // 如果完全匹配
+        if ($queryIndex === count($this->queryChars)) {
+            $score = $this->calcScore($matches);
+            if ($score > $bestScore) {
+                $bestScore   = $score;
+                $bestMatches = $matches;
+            }
+        }
+
+        return [$bestMatches, $bestScore];
     }
 
     protected function calcScore(array $matches): float
