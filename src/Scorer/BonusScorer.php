@@ -21,7 +21,7 @@ class BonusScorer extends BaseScorer
     // 默认配置
     protected static $defaultConfig = [
         // 各计分情况分数
-        self::BONUS_BASE               => 100,
+        self::BONUS_BASE               => 10000,
         self::BONUS_SEQUENTIAL         => 15,
         self::BONUS_SEPARATOR          => 30,
         self::BONUS_CAMEL              => 30,
